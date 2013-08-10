@@ -1,1 +1,5 @@
 __pycache__
+/version.txt
+/build
+/dist
+*.egg-info
