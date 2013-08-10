@@ -1,3 +1,5 @@
+"""libykpers bindings for python via cffi."""
+
 from cffi import FFI
 
 
@@ -57,19 +59,44 @@ def _yubi_error_wrap(f, *a, **kw):
 _yubi_error_wrap(C.yk_init)
 
 class YubiKey(object):
+    """A YubiKey.
+
+    Don't call ``YubiKey()`` directly; instead, use
+    ``YubiKey.open_first_key()``.
+
+    """
+
     @classmethod
     def open_first_key(cls):
+        """Open the first YubiKey available."""
+
         key = _yubi_error_wrap(C.yk_open_first_key)
         inst = cls()
         inst._key = key
         return inst
 
     def get_status(self):
+        """Get the status of this YubiKey.
+
+        Returns a struct with ``versionMajor``, ``versionMinor``,
+        ``versionBuild``, ``pgmSeq``, and ``touchLevel`` attributes.
+
+        """
+
         status = ffi.new('YK_STATUS *')
         _yubi_error_wrap(C.yk_get_status, self._key, status)
         return status[0]
 
     def hmac_challenge_response(self, challenge, may_block=True, slot=1):
+        """Issue an HMAC-SHA1 challenge to the YubiKey.
+
+        ``may_block`` can be set to False to not wait for the YubiKey button to
+        be pressed, if it's configured that way. ``slot`` can be either 1 or 2.
+
+        Returns a string of 20 bytes.
+
+        """
+
         if slot == 1:
             op = C.SLOT_CHAL_HMAC1
         elif slot == 2:
