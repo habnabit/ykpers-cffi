@@ -1,3 +1,6 @@
+# Copyright (c) Aaron Gallagher <_@habnab.it>
+# See COPYING for details.
+
 from ykpers import YubiKey
 
 yk = YubiKey.open_first_key()

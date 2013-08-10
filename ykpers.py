@@ -1,3 +1,6 @@
+# Copyright (c) Aaron Gallagher <_@habnab.it>
+# See COPYING for details.
+
 """libykpers bindings for python via cffi."""
 
 from cffi import FFI

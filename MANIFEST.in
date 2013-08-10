@@ -1,0 +1,1 @@
+include version.txt COPYING README.rst example.py
